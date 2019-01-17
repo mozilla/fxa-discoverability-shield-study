@@ -9,68 +9,26 @@ const STANDARD_AVATARS = {
   [UNVERIFIED_AVATAR]: "icons/avatar_confirm.svg",
 };
 
-/**  Example Feature module for a Shield Study.
- *
- *  UI:
- *  - during INSTALL only, show a notification bar with 2 buttons:
- *    - "Thanks".  Accepts the study (optional)
- *    - "I don't want this".  Uninstalls the study.
- *
- *  Firefox code:
- *  - Implements the 'introduction' to the 'button choice' study, via notification bar.
- *
- *  Demonstrates `studyUtils` API:
- *
- *  - `telemetry` to instrument "shown", "accept", and "leave-study" events.
- *  - `endStudy` to send a custom study ending.
- *
- **/
-class Feature {
-  constructor() {}
-  /** A Demonstration feature.
-   *
-   *  - variation: study info about particular client study variation
-   *  - reason: string of background.js install/startup/shutdown reason
-   *
-   */
-  configure(studyInfo) {
-    const feature = this;
-    const { variation, isFirstRun } = studyInfo;
-
-    // Initiate our browser action
-    new FxABrowserFeature(variation);
-
-    // perform something only during first run
-    if (isFirstRun) {
-      // TODO: What should we do on first run
-    }
-  }
-
-  /* good practice to have the literal 'sending' be wrapped up */
-  sendTelemetry(stringStringMap) {
-    browser.study.sendTelemetry(stringStringMap);
-  }
-
-  /**
-   * Called at end of study, and if the user disables the study or it gets uninstalled by other means.
-   */
-  async cleanup() {}
-}
-
 class FxABrowserFeature {
-  /**
-   * - set image, text, click handler (telemetry)
-   */
-  constructor(variation) {
+  constructor() {}
+
+  configure(studyInfo) {
+    this._variation = studyInfo.variation.name;
+    this.updateState();
     browser.browserAction.setTitle({ title: "Firefox Account" });
 
     browser.fxa.listen();
-
-    this.updateState();
-
     browser.fxa.onUpdate.addListener(() => {
       this.updateState();
     });
+
+    if (studyInfo.isFirstRun) {
+      this.sendTelemetry({
+        pingType: "start",
+        interactionType: "none",
+        doorhangerActiveSeconds: "0",
+      });
+    }
   }
 
   async updateState() {
@@ -89,6 +47,7 @@ class FxABrowserFeature {
   }
 
   noUser() {
+    this._state = null;
     this.standardAvatar(DEFAULT_AVATAR);
     browser.browserAction.setPopup({ popup: "popup/sign_in/sign_in.html" });
   }
@@ -102,11 +61,13 @@ class FxABrowserFeature {
   }
 
   unverifiedUser() {
+    this._state = "unverified";
     this.standardAvatar(UNVERIFIED_AVATAR);
     browser.browserAction.setPopup({ popup: "popup/unverified/unverified.html" });
   }
 
   verifiedUser(user) {
+    this._state = "verified";
     if (user.avatar) {
       this.userAvatar(user.avatar);
     } else {
@@ -146,6 +107,27 @@ class FxABrowserFeature {
     };
     img.src = url;
   }
+
+  sendTelemetry(data) {
+    browser.study.sendTelemetry({
+      ...data,
+      addonId: "fxadisco",
+      addonVersion: "1",
+      branch: this._variation,
+      startTime: `${Date.now()}`,
+      fxaState: this._state || "none",
+      hasAvatar: `${this._avatar === USER_AVATAR}`,
+      uid: this._hashedUid || "none",
+    });
+  }
+
+  cleanup() {
+    this.sendTelemetry({
+      pingType: "stop",
+      interactionType: "none",
+      doorhangerActiveSeconds: "0",
+    });
+  }
 }
 
-window.feature = new Feature();
+window.feature = new FxABrowserFeature();
