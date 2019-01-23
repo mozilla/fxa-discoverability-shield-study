@@ -45,7 +45,8 @@ Type of interaction events we need recorded (`interactionType` in ping schema):
 4. `verifiedOpenAccountClick`: user clicked on the button to open FxA account prefs (only shown when account is in verified state)
 5. `verifiedOpenSyncClick`: user clicked on the button to open sync prefs (only shown when account is in verified state)
 6. `verifiedAvatarClick`: user clicked on their avatar to change it (only shown when account is in verified state)
-7. `verifiedSendTabClick`: user clicked on the send tab link (TBD if this will be included; only shown in verified state; only shown to treatment2 branch)
+7. `signinComplete`: browser received a sign-in message
+8. `signoutComplete`: browser received a sign-out message
 
 ## Example ping schema could look like this
 This is just the schema for the specific things we need in this study (what goes in the payload section of the `shield-study-addon` ping), for an example of the full schema see [this](https://github.com/motin/taar-experiment-v3-shield-study/blob/develop/schemas/full-schema.json).
@@ -244,6 +245,56 @@ Click `Sync Preferences`
       "fxaState": "verified",
       "hasAvatar": "true",
       "uid": "f37442ce2a1172a59d0dc77e38c6d3a8"
+    }
+  },
+  "testing": true
+}
+```
+
+Sign-in event
+```json
+{
+  "version": 3,
+  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "branch": "treatment",
+  "addon_version": "1.0.0",
+  "shield_version": "5.0.4",
+  "type": "shield-study-addon",
+  "data": {
+    "attributes": {
+      "interactionType": "signinComplete",
+      "addonId": "fxadisco",
+      "addonVersion": "1",
+      "branch": "treatment",
+      "startTime": "1548280727218",
+      "fxaState": "verified",
+      "hasAvatar": "false",
+      "uid": "f37442ce2a1172a59d9dc77e38c6d3a8"
+    }
+  },
+  "testing": true
+}
+```
+
+Sign-out event
+```json
+{
+  "version": 3,
+  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "branch": "treatment",
+  "addon_version": "1.0.0",
+  "shield_version": "5.0.4",
+  "type": "shield-study-addon",
+  "data": {
+    "attributes": {
+      "interactionType": "signoutComplete",
+      "addonId": "fxadisco",
+      "addonVersion": "1",
+      "branch": "treatment",
+      "startTime": "1548280727218",
+      "fxaState": "none",
+      "hasAvatar": "false",
+      "uid": "f37442ce2a1172a59d9dc77e38c6d3a8"
     }
   },
   "testing": true

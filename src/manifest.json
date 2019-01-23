@@ -36,7 +36,7 @@
       }
     }
   },
-  "permissions": ["management", "storage", "alarms", "tabs", "http://*/", "https://*/"],
+  "permissions": ["management", "storage", "alarms", "tabs", "https://firefoxusercontent.com/"],
   "background": {
     "scripts": ["studySetup.js", "feature.js", "background.js"]
   },

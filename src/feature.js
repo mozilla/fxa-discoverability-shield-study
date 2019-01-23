@@ -9,6 +9,11 @@ const STANDARD_AVATARS = {
   [UNVERIFIED_AVATAR]: "icons/avatar_confirm.svg",
 };
 
+const FXA_EVENTS = {
+  ["fxaccounts:onlogin"]: "signinComplete",
+  ["fxaccounts:onlogout"]: "signoutComplete",
+};
+
 const ADDON_ID = "fxadisco";
 const ADDON_VERSION = "1";
 
@@ -23,17 +28,6 @@ class FxABrowserFeature {
   configure(studyInfo) {
     this._variation = studyInfo.variation.name;
 
-    // For control, the addon is still installed but removed
-    // from the browser toolbar. This will allow us to end the
-    // study and have the user fill out survey.
-    if (studyInfo.variation.name === "control") {
-      browser.fxa.hideExtension();
-      return;
-    }
-
-    browser.browserAction.setTitle({ title: ADDON_TITLE });
-    browser.browserAction.setIcon({ path: STANDARD_AVATARS[DEFAULT_AVATAR] });
-
     browser.fxa.listen();
     browser.fxa.onUpdate.addListener(this.updateState.bind(this));
     browser.fxa.onTelemetryPing.addListener(this.sendTelemetry.bind(this));
@@ -47,13 +41,27 @@ class FxABrowserFeature {
     }
 
     this.updateState();
+
+    // For control, the add-on is still installed but removed
+    // from the browser toolbar. This will allow us to end the
+    // study and have the user fill out survey.
+    if (studyInfo.variation.name === "control") {
+      browser.fxa.hideExtension();
+    } else {
+      browser.browserAction.setTitle({ title: ADDON_TITLE });
+      browser.browserAction.setIcon({ path: STANDARD_AVATARS[DEFAULT_AVATAR] });
+    }
   }
 
-  async updateState() {
+  async updateState(event) {
+
     // The stored sessionToken will always be the source of truth when checking
     // account state.
     const user = await browser.fxa.getSignedInUser();
+
     if (user) {
+      this._hashedUid = user.hashedUid;
+
       if (user.verified) {
         this.verifiedUser(user);
       } else {
@@ -61,6 +69,12 @@ class FxABrowserFeature {
       }
     } else {
       this.noUser();
+    }
+
+    if (FXA_EVENTS[event]) {
+      this.sendTelemetry({
+        interactionType: FXA_EVENTS[event],
+      });
     }
   }
 
