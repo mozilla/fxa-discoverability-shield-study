@@ -27,7 +27,7 @@
 
 ## Manual / QA TEST Instructions
 
-## Testing Platforms and Locales
+### Testing Platforms and Locales
 
 Currently, testing for this extension should be done at a minimum for these platforms
 

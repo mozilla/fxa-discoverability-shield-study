@@ -21,7 +21,7 @@ const EventEmitter = ExtensionCommon.EventEmitter || ExtensionUtils.EventEmitter
 const FXA_EXTENSION_WIDGET_ID = "fxa-browser-discoverability_shield_mozilla_org-browser-action";
 const FXA_ENTRYPOINT = "fxa_discoverability";
 
-function sanitizeUser(user) {
+async function sanitizeUser(user) {
   if (user) {
     let avatar, email, avatarDefault;
     const { verified } = user;
@@ -32,11 +32,13 @@ function sanitizeUser(user) {
       avatarDefault = user.profileCache.profile.avatarDefault;
     }
 
+    const hashedUid = await getHashedUid();
+
     return {
       avatar,
       avatarDefault,
       email,
-      hashedUid: hashedUid(),
+      hashedUid,
       verified,
     };
   }
@@ -44,8 +46,9 @@ function sanitizeUser(user) {
   return undefined;
 }
 
-function hashedUid() {
+async function getHashedUid() {
   try {
+    await Weave.Service.identity._ensureValidToken();
     return Weave.Service.identity.hashedUID();
   } catch (e) {
   }
@@ -99,8 +102,8 @@ this.fxa = class extends ExtensionAPI {
 
         onUpdate: new EventManager(context, "fxa:onUpdate",
           fire => {
-            const listener = (name, value) => {
-              fire.async(name, value);
+            const listener = (name, value, topic) => {
+              fire.async(topic);
             };
             fxaEventEmitter.on("onUpdate", listener);
             return () => {
@@ -130,7 +133,7 @@ this.fxa = class extends ExtensionAPI {
                 case ONLOGIN_NOTIFICATION:
                 case ONLOGOUT_NOTIFICATION:
                 case ON_PROFILE_CHANGE_NOTIFICATION:
-                  fxaEventEmitter.emit("onUpdate", data);
+                  fxaEventEmitter.emit("onUpdate", data, topic);
               }
             },
           };
