@@ -109,7 +109,7 @@ class StudyLifeCycleHandler {
     const syncstate = user ? 1 : 0;
 
     for (let url of ending.urls) {
-      url = `${url}&syncstate=${syncstate}&b=${studyInfo.variation.name}`
+      url = `${url}&syncstate=${syncstate}&b=${studyInfo.variation.name}`;
       await browser.tabs.create({ url });
     }
 
