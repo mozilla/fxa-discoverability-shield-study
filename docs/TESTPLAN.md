@@ -43,7 +43,8 @@ In addition, these english locales should also be tested
 
 ### Preparations
 
-* Download a Nightly version of Firefox
+* Download an unbranded version of Firefox, Firefox Beta, or Firefox Nightly
+  * https://wiki.mozilla.org/Add-ons/Extension_Signing#Latest_Builds
 
 ### Install the add-on and enroll in the study
 
@@ -56,7 +57,8 @@ In addition, these english locales should also be tested
     * Specify if the experiment is expired
     * Boolean - values `true` and `false`
 * Set `shieldStudy.logLevel` to `All`. This permits shield-add-on log output in browser console.
-* Go to [this study's tracking bug](tbd: replace with your study's launch bug link in bugzilla) and install the latest add-on zip file
+* Set `xpinstall.signatures.dev-root` to `true`. This permits installing the add-on in unbranded Firefoxes.
+* Go to [this study's tracking bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1522598) and install the latest add-on zip file
 
 ## Expected User Experience / Functionality
 
@@ -73,7 +75,7 @@ Users see:
 2. Set about:config values
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=control
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
-    * Reload the extension from about:debugging
+    * Reload the extension
 
 Expected:
 
@@ -85,7 +87,7 @@ Expected:
 2. Set about:config values
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=control
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=true
-    * Reload the extension from about:debugging
+    * Reload the extension
 
 Expected:
 
@@ -103,7 +105,7 @@ Prerequisites:
 2. Set about:config values
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
-    * Reload the extension from about:debugging
+    * Reload the extension
 
 Steps:
 
@@ -133,7 +135,7 @@ Prerequisites:
 2. Set about:config values
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
-    * Reload the extension from about:debugging
+    * Reload the extension
 3. A verified existing Firefox Account
 
 Steps:
@@ -156,7 +158,7 @@ Prerequisites:
 2. Set about:config values
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
-    * Reload the extension from about:debugging
+    * Reload the extension
 3. A verified Firefox Account.
 4. Logged into extension using steps from [here](#with-existing-firefox-account).
 
@@ -181,7 +183,7 @@ Prerequisites:
 2. Set about:config values
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
-    * Reload the extension from about:debugging
+    * Reload the extension
 3. Log into extension using a verified account
 
 Steps:
@@ -200,11 +202,11 @@ Prerequisites:
 1. Load the extension
 2. Set about:config values
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
-    * Reload the extension from about:debugging
+    * Reload the extension
 3. Log into extension using a verified Firefox Account.
 4. Set about:config values
     * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=true
-    * Reload the extension from about:debugging
+    * Reload the extension
 
 Steps:
 

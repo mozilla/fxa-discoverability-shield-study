@@ -7,7 +7,7 @@
     "url": "https://github.com/mozilla/fxa-discoverability-shield-study/issues"
   },
   "dependencies": {
-    "shield-studies-addon-utils": "github:mozilla/shield-studies-addon-utils#5.0.4"
+    "shield-studies-addon-utils": "github:mozilla/shield-studies-addon-utils#5.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
