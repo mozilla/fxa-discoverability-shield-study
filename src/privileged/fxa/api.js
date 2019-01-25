@@ -76,9 +76,11 @@ this.fxa = class extends ExtensionAPI {
         async hideExtension() {
           const widget = await CustomizableUI.getWidget(FXA_EXTENSION_WIDGET_ID);
 
-          if (widget && widget.instances.length > 0 && widget.instances[0].node) {
-            const node = widget.instances[0].node;
-            node.setAttribute("hidden", true);
+          if (widget && widget.instances.length > 0) {
+            widget.instances.forEach((instance) => {
+              const node = instance.node;
+              node.setAttribute("hidden", true);
+            });
           }
         },
 

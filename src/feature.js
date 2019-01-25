@@ -32,6 +32,11 @@ class FxABrowserFeature {
     browser.fxa.onUpdate.addListener(this.updateState.bind(this));
     browser.fxa.onTelemetryPing.addListener(this.sendTelemetry.bind(this));
 
+    // For control, the add-on is still installed but removed
+    // from the browser toolbar. This will allow us to end the
+    // study and have the user fill out survey.
+    browser.windows.onCreated.addListener(this.hideExtensionIfControl.bind(this))
+
     if (studyInfo.isFirstRun) {
       this.sendTelemetry({
         pingType: "start",
@@ -41,15 +46,15 @@ class FxABrowserFeature {
     }
 
     this.updateState();
+    this.hideExtensionIfControl();
 
-    // For control, the add-on is still installed but removed
-    // from the browser toolbar. This will allow us to end the
-    // study and have the user fill out survey.
-    if (studyInfo.variation.name === "control") {
+    browser.browserAction.setTitle({ title: ADDON_TITLE });
+    browser.browserAction.setIcon({ path: STANDARD_AVATARS[DEFAULT_AVATAR] });
+  }
+
+  hideExtensionIfControl() {
+    if (this._variation === "control") {
       browser.fxa.hideExtension();
-    } else {
-      browser.browserAction.setTitle({ title: ADDON_TITLE });
-      browser.browserAction.setIcon({ path: STANDARD_AVATARS[DEFAULT_AVATAR] });
     }
   }
 
