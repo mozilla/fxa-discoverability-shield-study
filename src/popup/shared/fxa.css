@@ -57,13 +57,19 @@ body {
 #display-name,
 #email {
   color: #666666;
-  line-height: 1.6em;
+  display: block;
   font-size: 1em;
+  line-height: 1.6em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 210px;
 }
 
 #avatar {
   background-image: url('../../icons/avatar.svg');
   background-size: contain;
+  background-repeat: no-repeat;
   height: 32px;
   width: 32px;
   border-radius: 50%;
