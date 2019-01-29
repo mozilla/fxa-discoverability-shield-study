@@ -18,7 +18,7 @@ const { CustomizableUI } = ChromeUtils.import("resource:///modules/CustomizableU
 const { EventManager } = ExtensionCommon;
 const EventEmitter = ExtensionCommon.EventEmitter || ExtensionUtils.EventEmitter;
 
-const FXA_EXTENSION_WIDGET_ID = "fxa-browser-discoverability_shield_mozilla_org-browser-action";
+const FXA_EXTENSION_WIDGET_ID = "fxa-browser-discoverability_mozilla_org-browser-action";
 const FXA_ENTRYPOINT = "fxa_discoverability";
 
 async function sanitizeUser(user) {

@@ -99,7 +99,7 @@ Click avatar toolbar icon
 ```json
 {
   "version": 3,
-  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "study_name": "fxa-browser-discoverability@mozilla.org",
   "branch": "treatment",
   "addon_version": "1.0.0",
   "shield_version": "5.0.4",
@@ -125,7 +125,7 @@ Click `Turn on Sync...`
 ```json
 {
   "version": 3,
-  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "study_name": "fxa-browser-discoverability@mozilla.org",
   "branch": "treatment",
   "addon_version": "1.0.0",
   "shield_version": "5.0.4",
@@ -151,7 +151,7 @@ Click `Open Sync Settings...`
 ```json
 {
   "version": 3,
-  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "study_name": "fxa-browser-discoverability@mozilla.org",
   "branch": "treatment",
   "addon_version": "1.0.0",
   "shield_version": "5.0.4",
@@ -177,7 +177,7 @@ Click avatar icon from pull down menu
 ```json
 {
   "version": 3,
-  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "study_name": "fxa-browser-discoverability@mozilla.org",
   "branch": "treatment",
   "addon_version": "1.0.0",
   "shield_version": "5.0.4",
@@ -203,7 +203,7 @@ Click `Manage Account...`
 ```json
 {
   "version": 3,
-  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "study_name": "fxa-browser-discoverability@mozilla.org",
   "branch": "treatment",
   "addon_version": "1.0.0",
   "shield_version": "5.0.4",
@@ -229,7 +229,7 @@ Click `Sync Preferences`
 ```json
 {
   "version": 3,
-  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "study_name": "fxa-browser-discoverability@mozilla.org",
   "branch": "treatment",
   "addon_version": "1.0.0",
   "shield_version": "5.0.4",
@@ -255,7 +255,7 @@ Sign-in event
 ```json
 {
   "version": 3,
-  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "study_name": "fxa-browser-discoverability@mozilla.org",
   "branch": "treatment",
   "addon_version": "1.0.0",
   "shield_version": "5.0.4",
@@ -280,7 +280,7 @@ Sign-out event
 ```json
 {
   "version": 3,
-  "study_name": "fxa-browser-discoverability@shield.mozilla.org",
+  "study_name": "fxa-browser-discoverability@mozilla.org",
   "branch": "treatment",
   "addon_version": "1.0.0",
   "shield_version": "5.0.4",

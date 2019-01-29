@@ -50,10 +50,10 @@ In addition, these english locales should also be tested
 
 * (Create profile: <https://developer.mozilla.org/Firefox/Multiple_profiles>, or via some other method)
 * Navigate to _about:config_ and set the following preferences. (If a preference does not exist, create it be right-clicking in the white area and selecting New)
-  * `extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName`
+  * `extensions.fxa-browser-discoverability_mozilla_org.test.variationName`
     * Specify the experiment variation
     * String - values `control`, `treatment`
-  * `extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired`
+  * `extensions.fxa-browser-discoverability_mozilla_org.test.expired`
     * Specify if the experiment is expired
     * Boolean - values `true` and `false`
 * Set `shieldStudy.logLevel` to `All`. This permits shield-add-on log output in browser console.
@@ -73,8 +73,8 @@ Users see:
 
 1. Load the extension
 2. Set about:config values
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=control
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
+    * extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+    * extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
     * Reload the extension
 
 Expected:
@@ -85,8 +85,8 @@ Expected:
 
 1. Load the extension
 2. Set about:config values
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=control
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=true
+    * extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+    * extensions.fxa-browser-discoverability_mozilla_org.test.expired=true
     * Reload the extension
 
 Expected:
@@ -103,8 +103,8 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
+    * extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
+    * extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
     * Reload the extension
 
 Steps:
@@ -133,8 +133,8 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
+    * extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
+    * extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
     * Reload the extension
 3. A verified existing Firefox Account
 
@@ -156,8 +156,8 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
+    * extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
+    * extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
     * Reload the extension
 3. A verified Firefox Account.
 4. Logged into extension using steps from [here](#with-existing-firefox-account).
@@ -181,8 +181,8 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=false
+    * extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
+    * extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
     * Reload the extension
 3. Log into extension using a verified account
 
@@ -201,11 +201,11 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.variationName=treatment
+    * extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
     * Reload the extension
 3. Log into extension using a verified Firefox Account.
 4. Set about:config values
-    * extensions.fxa-browser-discoverability_shield_mozilla_org.test.expired=true
+    * extensions.fxa-browser-discoverability_mozilla_org.test.expired=true
     * Reload the extension
 
 Steps:
