@@ -1,11 +1,11 @@
 {
   "name": "Firefox Account browser extension",
   "description": "__MSG_extensionDescription__",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "manifest_version": 2,
   "applications": {
     "gecko": {
-      "id": "fxa-browser-discoverability@shield.mozilla.org",
+      "id": "fxa-browser-discoverability@mozilla.org",
       "strict_min_version": "61.0a1"
     }
   },
