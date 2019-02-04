@@ -108,8 +108,11 @@ class StudyLifeCycleHandler {
     const studyInfo = await browser.study.getStudyInfo();
     const syncstate = user ? 1 : 0;
 
+    const sendTabInfo = await browser.storage.local.get("sendTab");
+    const sendtab = sendTabInfo.sendTab ? 1 : 0;
+
     for (let url of ending.urls) {
-      url = `${url}&syncstate=${syncstate}&b=${studyInfo.variation.name}`;
+      url = `${url}&syncstate=${syncstate}&b=${studyInfo.variation.name}&sendtab=${sendtab}`;
       await browser.tabs.create({ url });
     }
 

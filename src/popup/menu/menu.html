@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="../shared/fxa.css"/>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="../shared/fxa.css"/>
 </head>
 
 <body>
 <div id="authenticated">
-    <ul class="settings-menu">
-        <li class="border-bottom">
-            <div class="menu-item avatar-menu">
-                <div id="avatar"></div>
-                <div>
-                    <div id="display-name">Syncing to...</div>
-                    <div id="email">Firefox</div>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div id="manage-account-button" class="menu-item">
-                Manage Account...
-            </div>
-        </li>
-        <li>
-            <div id="sync-preferences-button" class="menu-item">
-                Sync Preferences...
-            </div>
-        </li>
-    </ul>
+  <ul class="settings-menu">
+    <li class="border-bottom">
+      <div class="menu-item avatar-menu">
+        <div id="avatar"></div>
+        <div>
+          <div id="display-name">Syncing to...</div>
+          <div id="email">Firefox</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div id="manage-account-button" class="menu-item">
+        Manage Account...
+      </div>
+    </li>
+    <li>
+      <div id="sync-preferences-button" class="menu-item">
+        Sync Preferences...
+      </div>
+    </li>
+    <li class="border-top" id="send-tab-menu">
+      <div id="send-tab-button" class="menu-item">
+        Send Tab to Device
+      </div>
+    </li>
+  </ul>
 </div>
 
 <script src="../fxa.js"></script>

@@ -3,7 +3,6 @@
 /* global ExtensionAPI */
 
 ChromeUtils.import("resource://gre/modules/Console.jsm");
-ChromeUtils.import("resource://gre/modules/Services.jsm");
 ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 ChromeUtils.import("resource://gre/modules/ExtensionUtils.jsm");
@@ -13,6 +12,10 @@ ChromeUtils.defineModuleGetter(this, "EnsureFxAccountsWebChannel", "resource://g
 ChromeUtils.defineModuleGetter(this, "BrowserWindowTracker", "resource:///modules/BrowserWindowTracker.jsm");
 ChromeUtils.defineModuleGetter(this, "Weave", "resource://services-sync/main.js");
 const { CustomizableUI } = ChromeUtils.import("resource:///modules/CustomizableUI.jsm", {});
+const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm", null);
+XPCOMUtils.defineLazyGetter(this, "FxAccountsCommon", function() {
+  return ChromeUtils.import("resource://gre/modules/FxAccountsCommon.js", {});
+});
 
 /* eslint-disable no-undef */
 const { EventManager } = ExtensionCommon;
@@ -20,6 +23,7 @@ const EventEmitter = ExtensionCommon.EventEmitter || ExtensionUtils.EventEmitter
 
 const FXA_EXTENSION_WIDGET_ID = "fxa-browser-discoverability_mozilla_org-browser-action";
 const FXA_ENTRYPOINT = "fxa_discoverability";
+const FXA_RECIEVE_TAB_MESSAGE = "fxaccounts:commands:open-uri";
 
 async function sanitizeUser(user) {
   if (user) {
@@ -105,7 +109,7 @@ this.fxa = class extends ExtensionAPI {
         onUpdate: new EventManager(context, "fxa:onUpdate",
           fire => {
             const listener = (name, value, topic) => {
-              fire.async(topic);
+              fire.async(value, topic);
             };
             fxaEventEmitter.on("onUpdate", listener);
             return () => {
@@ -132,17 +136,19 @@ this.fxa = class extends ExtensionAPI {
           const broker = {
             observe(subject, topic, data) {
               switch (topic) {
-                case ONLOGIN_NOTIFICATION:
-                case ONLOGOUT_NOTIFICATION:
-                case ON_PROFILE_CHANGE_NOTIFICATION:
+                case FxAccountsCommon.ONLOGIN_NOTIFICATION:
+                case FxAccountsCommon.ONLOGOUT_NOTIFICATION:
+                case FxAccountsCommon.ON_PROFILE_CHANGE_NOTIFICATION:
+                case FXA_RECIEVE_TAB_MESSAGE:
                   fxaEventEmitter.emit("onUpdate", data, topic);
               }
             },
           };
 
-          Services.obs.addObserver(broker, ONLOGIN_NOTIFICATION);
-          Services.obs.addObserver(broker, ONLOGOUT_NOTIFICATION);
-          Services.obs.addObserver(broker, ON_PROFILE_CHANGE_NOTIFICATION);
+          Services.obs.addObserver(broker, FxAccountsCommon.ONLOGIN_NOTIFICATION);
+          Services.obs.addObserver(broker, FxAccountsCommon.ONLOGOUT_NOTIFICATION);
+          Services.obs.addObserver(broker, FxAccountsCommon.ON_PROFILE_CHANGE_NOTIFICATION);
+          Services.obs.addObserver(broker, FXA_RECIEVE_TAB_MESSAGE);
         },
       },
     };
