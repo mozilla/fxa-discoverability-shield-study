@@ -1,30 +1,29 @@
 # Telemetry sent by this add-on
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
-
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 **Contents**
 
-* [Usual Firefox Telemetry is mostly unaffected](#usual-firefox-telemetry-is-mostly-unaffected)
-* [Study-specific endings](#study-specific-endings)
-* [`shield-study` pings (common to all shield-studies)](#shield-study-pings-common-to-all-shield-studies)
-* [`shield-study-addon` pings, specific to THIS study.](#shield-study-addon-pings-specific-to-this-study)
-* [Example sequence for a 'voted => not sure' interaction](#example-sequence-for-a-voted--not-sure-interaction)
+- [Usual Firefox Telemetry is mostly unaffected](#usual-firefox-telemetry-is-mostly-unaffected)
+- [Study-specific endings](#study-specific-endings)
+- [`shield-study` pings (common to all shield-studies)](#shield-study-pings-common-to-all-shield-studies)
+- [`shield-study-addon` pings, specific to THIS study.](#shield-study-addon-pings-specific-to-this-study)
+- [Example ping schema could look like this](#example-ping-schema-could-look-like-this)
+- [Example sequence](#example-sequence)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Usual Firefox Telemetry is mostly unaffected
 
-* No change: `main` and other pings are UNAFFECTED by this add-on, except that [shield-studies-addon-utils](https://github.com/mozilla/shield-studies-addon-utils) adds the add-on id as an active experiment in the telemetry environment.
-* Respects telemetry preferences. If user has disabled telemetry, no telemetry will be sent.
+- No change: `main` and other pings are UNAFFECTED by this add-on, except that [shield-studies-addon-utils](https://github.com/mozilla/shield-studies-addon-utils) adds the add-on id as an active experiment in the telemetry environment.
+- Respects telemetry preferences. If user has disabled telemetry, no telemetry will be sent.
 
 ## Study-specific endings
 
 The STUDY SPECIFIC ENDINGS this study supports are:
 
 There are no study specific endings. The study ends once we manually disable or it expires.
-
 
 ## `shield-study` pings (common to all shield-studies)
 
@@ -33,9 +32,10 @@ There are no study specific endings. The study ends once we manually disable or 
 ## `shield-study-addon` pings, specific to THIS study.
 
 Pings should be sent from the addon in the following cases:
-* Study enrollment / initialization (`start` pingType)
-* Study unenrollment / expiration (`stop` pingType)
-* UI interaction with the addon (`engage` pingType)
+
+- Study enrollment / initialization (`start` pingType)
+- Study unenrollment / expiration (`stop` pingType)
+- UI interaction with the addon (`engage` pingType)
 
 Type of interaction events we need recorded (`interactionType` in ping schema):
 
@@ -47,8 +47,10 @@ Type of interaction events we need recorded (`interactionType` in ping schema):
 6. `verifiedAvatarClick`: user clicked on their avatar to change it (only shown when account is in verified state)
 7. `signinComplete`: browser received a sign-in message
 8. `signoutComplete`: browser received a sign-out message
+9. `sendTabDeviceClick`: user clicked link to blog for `Send Tab to Devic`
 
 ## Example ping schema could look like this
+
 This is just the schema for the specific things we need in this study (what goes in the payload section of the `shield-study-addon` ping), for an example of the full schema see [this](https://github.com/motin/taar-experiment-v3-shield-study/blob/develop/schemas/full-schema.json).
 
 ```
@@ -93,9 +95,11 @@ This is just the schema for the specific things we need in this study (what goes
 }
 
 ```
+
 ## Example sequence
 
 Click avatar toolbar icon
+
 ```json
 {
   "version": 3,
@@ -122,6 +126,7 @@ Click avatar toolbar icon
 ```
 
 Click `Turn on Sync...`
+
 ```json
 {
   "version": 3,
@@ -148,6 +153,7 @@ Click `Turn on Sync...`
 ```
 
 Click `Open Sync Settings...`
+
 ```json
 {
   "version": 3,
@@ -174,6 +180,7 @@ Click `Open Sync Settings...`
 ```
 
 Click avatar icon from pull down menu
+
 ```json
 {
   "version": 3,
@@ -200,6 +207,7 @@ Click avatar icon from pull down menu
 ```
 
 Click `Manage Account...`
+
 ```json
 {
   "version": 3,
@@ -226,6 +234,7 @@ Click `Manage Account...`
 ```
 
 Click `Sync Preferences`
+
 ```json
 {
   "version": 3,
@@ -252,6 +261,7 @@ Click `Sync Preferences`
 ```
 
 Sign-in event
+
 ```json
 {
   "version": 3,
@@ -277,6 +287,7 @@ Sign-in event
 ```
 
 Sign-out event
+
 ```json
 {
   "version": 3,
