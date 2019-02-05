@@ -1,11 +1,12 @@
 "use strict";
 
-const ENTRYPOINT = "fxa_discoverability";
+const ENTRYPOINT = "fxa_discoverability_v2";
 const SIGN_IN_LINK = `https://accounts.firefox.com/signin?action=email&service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
 const CONNECT_ANOTHER_DEVICE = `https://accounts.firefox.com/connect_another_device?service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
 const MANAGE_ACCOUNT = `https://accounts.firefox.com/settings?service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
 const CHANGE_AVATAR = `https://accounts.firefox.com/settings/avatar/change?service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
 const DEVICES_AND_APPS = `https://accounts.firefox.com/settings/clients?service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
+const SEND_TAB_INFO = `https://blog.mozilla.org/firefox/send-tabs-a-better-way?utm_source=${ENTRYPOINT}`;
 
 const CLICK_HANDLERS = new Map([
   [ "sign-in-button", {
@@ -36,6 +37,10 @@ const CLICK_HANDLERS = new Map([
     handler: () => openSyncPreferences(),
     telemetry: "unverifiedOpenSyncClick",
   } ],
+  [ "send-tab-button", {
+    handler: () => createNewTab(SEND_TAB_INFO),
+    telemetry: "sendTabDeviceClick",
+  } ],
 ]);
 
 init();
@@ -61,7 +66,7 @@ async function init() {
   sendTelemetry("toolbarClick", 0);
 }
 
-function setupAccountMenu(user) {
+async function setupAccountMenu(user) {
   if (user) {
     const emailElement = document.getElementById("email");
     if (emailElement) {
@@ -72,11 +77,37 @@ function setupAccountMenu(user) {
       } else {
         document.getElementById("avatar").style.backgroundImage = `url("${user.avatar}")`;
       }
+
+      // Setup the control and treatment menus from fetching the study information
+      // from local storage. Unfortunately, we cant use `browser.study.studyInfo`
+      // because telemetry complains that the is not setup. There might be a
+      // better way to do this...
+      const info = await browser.storage.local.get("studyInfo");
+      const studyInfo = info.studyInfo;
+      if (studyInfo.variation.name === "control") {
+        const sendTabElement = document.getElementById("send-tab-menu");
+        sendTabElement.style.display = "none";
+
+        const menuElement = document.getElementById("authenticated");
+        menuElement.style.height = "135px";
+      }
     }
   }
 }
 
-function createNewTab(url) {
+async function createNewTab(url) {
+
+  // On send tab clicks, set a session property that the user clicked the link.
+  // When the experiment ends, this value will get appended to the survey.
+  if (url === SEND_TAB_INFO) {
+    const tab = await browser.storage.local.get("sendTab");
+    if (!!tab.sendTab) {
+      browser.storage.local.set({
+        "sendTab": true,
+      });
+    }
+  }
+
   browser.tabs.create({ url });
   window.close();
 }

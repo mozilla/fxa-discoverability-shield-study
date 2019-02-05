@@ -32,11 +32,6 @@ class FxABrowserFeature {
     browser.fxa.onUpdate.addListener(this.updateState.bind(this));
     browser.fxa.onTelemetryPing.addListener(this.sendTelemetry.bind(this));
 
-    // For control, the add-on is still installed but removed
-    // from the browser toolbar. This will allow us to end the
-    // study and have the user fill out survey.
-    browser.windows.onCreated.addListener(this.hideExtensionIfControl.bind(this))
-
     if (studyInfo.isFirstRun) {
       this.sendTelemetry({
         pingType: "start",
@@ -45,26 +40,25 @@ class FxABrowserFeature {
       });
     }
 
+    // We store study information here so that the menus can determine which
+    // buttons to show for control and treatment.
+    browser.storage.local.set({
+      "studyInfo": studyInfo,
+    });
+
     this.updateState();
-    this.hideExtensionIfControl();
 
     browser.browserAction.setTitle({ title: ADDON_TITLE });
     browser.browserAction.setIcon({ path: STANDARD_AVATARS[DEFAULT_AVATAR] });
   }
 
-  hideExtensionIfControl() {
-    if (this._variation === "control") {
-      browser.fxa.hideExtension();
-    }
-  }
-
   async updateState(event) {
-
     // The stored sessionToken will always be the source of truth when checking
     // account state.
     const user = await browser.fxa.getSignedInUser();
 
     if (user) {
+
       this._hashedUid = user.hashedUid;
 
       if (user.verified) {

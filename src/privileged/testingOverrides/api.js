@@ -4,7 +4,10 @@
 
 ChromeUtils.import("resource://gre/modules/Console.jsm");
 ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
-ChromeUtils.import("resource://gre/modules/Preferences.jsm");
+const { Preferences } = ChromeUtils.import(
+  "resource://gre/modules/Preferences.jsm",
+  null,
+);
 
 this.testingOverrides = class extends ExtensionAPI {
   getAPI(context) {

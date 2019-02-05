@@ -38,7 +38,7 @@ const baseStudySetup = {
     /** standard endings */
     "user-disable": {
       baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Avatar-Experiment?reason=user-disable",
+        "https://qsurvey.mozilla.com/s3/Avatar-Experiment-P2?reason=user-disable",
       ],
     },
     ineligible: {
@@ -46,7 +46,7 @@ const baseStudySetup = {
     },
     expired: {
       baseUrls: [
-        "https://qsurvey.mozilla.com/s3/Avatar-Experiment?reason=expired",
+        "https://qsurvey.mozilla.com/s3/Avatar-Experiment-P2?reason=expired",
       ],
     },
   },
