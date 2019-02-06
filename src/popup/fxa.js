@@ -1,20 +1,25 @@
 "use strict";
 
-const ENTRYPOINT = "fxa_discoverability_v2";
-const SIGN_IN_LINK = `https://accounts.firefox.com/signin?action=email&service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
-const CONNECT_ANOTHER_DEVICE = `https://accounts.firefox.com/connect_another_device?service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
-const MANAGE_ACCOUNT = `https://accounts.firefox.com/settings?service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
-const CHANGE_AVATAR = `https://accounts.firefox.com/settings/avatar/change?service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
-const DEVICES_AND_APPS = `https://accounts.firefox.com/settings/clients?service=sync&context=fx_desktop_v3&entrypoint=${ENTRYPOINT}`;
-const SEND_TAB_INFO = `https://blog.mozilla.org/firefox/send-tabs-a-better-way?utm_source=${ENTRYPOINT}`;
+const ENTRYPOINT_BASE = "fxa_discoverability_v2";
+let variation = "control";
+const SIGN_IN_LINK = `https://accounts.firefox.com/signin?action=email&service=sync&context=fx_desktop_v3`;
+const CONNECT_ANOTHER_DEVICE = `https://accounts.firefox.com/connect_another_device?service=sync&context=fx_desktop_v3`;
+const MANAGE_ACCOUNT = `https://accounts.firefox.com/settings?service=sync&context=fx_desktop_v3`;
+const CHANGE_AVATAR = `https://accounts.firefox.com/settings/avatar/change?service=sync&context=fx_desktop_v3`;
+const DEVICES_AND_APPS = `https://accounts.firefox.com/settings/clients?service=sync&context=fx_desktop_v3`;
+const SEND_TAB_INFO = `https://blog.mozilla.org/firefox/send-tabs-a-better-way?utm_source=treatment2`;
+
+function createEntrypointUrl(url) {
+  return `${url}&entrypoint=${ENTRYPOINT_BASE}_${variation}`;
+}
 
 const CLICK_HANDLERS = new Map([
   [ "sign-in-button", {
-    handler: () => createNewTab(SIGN_IN_LINK),
+    handler: () => createNewTab(createEntrypointUrl(SIGN_IN_LINK)),
     telemetry: "signinClick",
   } ],
   [ "manage-account-button", {
-    handler: () => createNewTab(MANAGE_ACCOUNT),
+    handler: () => createNewTab(createEntrypointUrl(MANAGE_ACCOUNT)),
     telemetry: "verifiedOpenAccountClick",
   } ],
   [ "sync-preferences-button", {
@@ -22,15 +27,15 @@ const CLICK_HANDLERS = new Map([
     telemetry: "verifiedOpenSyncClick",
   } ],
   [ "connect-another-device-button", {
-    handler: () => createNewTab(CONNECT_ANOTHER_DEVICE),
+    handler: () => createNewTab(createEntrypointUrl(CONNECT_ANOTHER_DEVICE)),
     telemetry: "verifiedOpenCadClick",
   } ],
   [ "avatar", {
-    handler: () => createNewTab(CHANGE_AVATAR),
+    handler: () => createNewTab(createEntrypointUrl(CHANGE_AVATAR)),
     telemetry: "verifiedAvatarClick",
   } ],
   [ "devices-apps-button", {
-    handler: () => createNewTab(DEVICES_AND_APPS),
+    handler: () => createNewTab(createEntrypointUrl(DEVICES_AND_APPS)),
     telemetry: "verifiedOpenDevicesClick",
   } ],
   [ "unverified-button", {
@@ -38,7 +43,7 @@ const CLICK_HANDLERS = new Map([
     telemetry: "unverifiedOpenSyncClick",
   } ],
   [ "send-tab-button", {
-    handler: () => createNewTab(SEND_TAB_INFO),
+    handler: () => createNewTab(createEntrypointUrl(SEND_TAB_INFO)),
     telemetry: "sendTabDeviceClick",
   } ],
 ]);
@@ -48,6 +53,14 @@ init();
 async function init() {
   const startTime = Date.now();
   const user = await browser.fxa.getSignedInUser();
+
+  // Setup the control and treatment menus from fetching the study information
+  // from local storage. Unfortunately, we cant use `browser.study.studyInfo`
+  // because telemetry complains that the is not setup. There might be a
+  // better way to do this...
+  const info = await browser.storage.local.get("studyInfo");
+  const studyInfo = info.studyInfo;
+  variation = studyInfo.variation.name;
 
   if (user && user.verified) {
     setupAccountMenu(user);
@@ -78,13 +91,7 @@ async function setupAccountMenu(user) {
         document.getElementById("avatar").style.backgroundImage = `url("${user.avatar}")`;
       }
 
-      // Setup the control and treatment menus from fetching the study information
-      // from local storage. Unfortunately, we cant use `browser.study.studyInfo`
-      // because telemetry complains that the is not setup. There might be a
-      // better way to do this...
-      const info = await browser.storage.local.get("studyInfo");
-      const studyInfo = info.studyInfo;
-      if (studyInfo.variation.name === "control") {
+      if (variation !== "treatment2") {
         const sendTabElement = document.getElementById("send-tab-menu");
         sendTabElement.style.display = "none";
 
