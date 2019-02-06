@@ -15,7 +15,7 @@ const FXA_EVENTS = {
 };
 
 const ADDON_ID = "fxadisco";
-const ADDON_VERSION = "1";
+const ADDON_VERSION = "2";
 
 const ADDON_TITLE = "Firefox Account";
 const SIGN_IN_PAGE = "popup/sign_in/sign_in.html";
@@ -33,11 +33,7 @@ class FxABrowserFeature {
     browser.fxa.onTelemetryPing.addListener(this.sendTelemetry.bind(this));
 
     if (studyInfo.isFirstRun) {
-      this.sendTelemetry({
-        pingType: "start",
-        interactionType: "none",
-        doorhangerActiveSeconds: "0",
-      });
+      this.sendFirstRunTelemetry();
     }
 
     // We store study information here so that the menus can determine which
@@ -52,7 +48,28 @@ class FxABrowserFeature {
     browser.browserAction.setIcon({ path: STANDARD_AVATARS[DEFAULT_AVATAR] });
   }
 
-  async updateState(event) {
+  async sendFirstRunTelemetry() {
+    // Not ideal to fetch the signed in user twice but figured
+    // since this only happens on first run it would be ok.
+    const user = await browser.fxa.getSignedInUser();
+    let fxaState = "none";
+    if (user) {
+      if (user.verified) {
+        fxaState = "verified";
+      } else {
+        fxaState = "unverified";
+      }
+    }
+
+    this.sendTelemetry({
+      pingType: "start",
+      interactionType: "none",
+      fxaState,
+      doorhangerActiveSeconds: "0",
+    });
+  }
+
+  async updateState(value, event) {
     // The stored sessionToken will always be the source of truth when checking
     // account state.
     const user = await browser.fxa.getSignedInUser();
@@ -146,7 +163,7 @@ class FxABrowserFeature {
       addonVersion: ADDON_VERSION,
       branch: this._variation,
       startTime: `${Date.now()}`,
-      fxaState: this._state || "none",
+      fxaState: this._state || data.fxaState || "none",
       hasAvatar: `${this._avatar === USER_AVATAR}`,
       uid: this._hashedUid || "none",
     });

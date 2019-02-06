@@ -3,22 +3,21 @@
 The Shield Studies Add-on Template makes some assumptions about your environment that can be challenging to meet on Windows machines. So far the most promising approach uses the **Windows Subsystem for Linux (WSL)**. WSL is a young project with bugs and unexpected pitfalls; caveat emptor.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
-
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 **Contents**
 
-* [Requirements](#requirements)
-* [Installing WSL](#installing-wsl)
-* [Optional](#optional)
-* [Known Issues](#known-issues)
-* [TODO](#todo)
+- [Requirements](#requirements)
+- [Installing WSL](#installing-wsl)
+- [Optional](#optional)
+- [Known Issues](#known-issues)
+- [TODO](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Requirements
 
-* Windows Version 10.0.14986+ (find your version by typing `ver` at Windows command line)
+- Windows Version 10.0.14986+ (find your version by typing `ver` at Windows command line)
 
 ## Installing WSL
 
@@ -49,16 +48,16 @@ sudo apt install zip
 
 ## Optional
 
-* Configure which Firefox binary to use in bash. `export FIREFOX_BINARY="/mnt/c/Program Files (x86)/Firefox Developer Edition/firefox.exe"` or similar (run with `"$FIREFOX_BINARY"` in quotes just like that)
-* Configure VisualStudio Code's built-in terminal to use your new bash by setting `terminal.integrated.shell.windows` to `C:\\Windows\\System32\\bash.exe`.
+- Configure which Firefox binary to use in bash. `export FIREFOX_BINARY="/mnt/c/Program Files (x86)/Firefox Developer Edition/firefox.exe"` or similar (run with `"$FIREFOX_BINARY"` in quotes just like that)
+- Configure VisualStudio Code's built-in terminal to use your new bash by setting `terminal.integrated.shell.windows` to `C:\\Windows\\System32\\bash.exe`.
 
 ## Known Issues
 
-* Running `npm run test` in this environment fails with a 'profile cannot be loaded' error. Worked around it? See TODO.
-* [Editing files in the WSL linux filesystem with Windows tools corrupts data there.](https://blogs.msdn.microsoft.com/commandline/2016/11/17/do-not-change-linux-files-using-windows-apps-and-tools/) Don't find your secret hidden linux home directory in WSL, check your code out there, and then edit it using e.g. Windows Visual Studio Code. Things will break in all sorts of unpredictable ways.
+- Running `npm run test` in this environment fails with a 'profile cannot be loaded' error. Worked around it? See TODO.
+- [Editing files in the WSL linux filesystem with Windows tools corrupts data there.](https://blogs.msdn.microsoft.com/commandline/2016/11/17/do-not-change-linux-files-using-windows-apps-and-tools/) Don't find your secret hidden linux home directory in WSL, check your code out there, and then edit it using e.g. Windows Visual Studio Code. Things will break in all sorts of unpredictable ways.
 
 ## TODO
 
-* Windows-first developers, improve any/all of the above information.
-* Windows-first developers, help find workarounds to bugs encountered.
-* Windows-first developers, script any of the above steps to improve this setup process.
+- Windows-first developers, improve any/all of the above information.
+- Windows-first developers, help find workarounds to bugs encountered.
+- Windows-first developers, script any of the above steps to improve this setup process.

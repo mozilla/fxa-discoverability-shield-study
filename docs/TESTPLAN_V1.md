@@ -11,13 +11,13 @@
   - [Install the add-on and enroll in the study](#install-the-add-on-and-enroll-in-the-study)
 - [Expected User Experience / Functionality](#expected-user-experience--functionality)
   - [Control variation](#control-variation)
+    - [Does not display avatar icon](#does-not-display-avatar-icon)
+    - [Prompts for shield study experiment survey](#prompts-for-shield-study-experiment-survey)
+  - [Treatment variation](#treatment-variation)
     - [With new Firefox Account](#with-new-firefox-account)
     - [With existing Firefox Account](#with-existing-firefox-account)
     - [Menu links work](#menu-links-work)
     - [Disconnect Firefox Account](#disconnect-firefox-account)
-    - [Prompts for shield study experiment survey](#prompts-for-shield-study-experiment-survey)
-  - [Treatment variation](#treatment-variation)
-    - [Displays `Send Tab to Device` menu button](#displays-send-tab-to-device-menu-button)
     - [Prompts for shield study experiment survey](#prompts-for-shield-study-experiment-survey-1)
   - [Design](#design)
   - [Note: checking "sent Telemetry is correct"](#note-checking-sent-telemetry-is-correct)
@@ -64,10 +64,38 @@ In addition, these english locales should also be tested
 
 Users see:
 
-- Users in the treatment variation should see an avatar icon and the `Send Tab to Device` menu after logging in.
-- Users in the control variation should see an avatar icon but will not see the `Send Tab to Device` menu after logging in.
+- Users in treatment variation should see an avatar icon to the left of the hamburger menu.
+- Users in the control variation should not see the avatar icon.
 
 ### Control variation
+
+#### Does not display avatar icon
+
+1. Load the extension
+2. Set about:config values
+   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+   - extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
+   - Reload the extension
+
+Expected:
+
+1. Avatar icon is not loaded
+
+#### Prompts for shield study experiment survey
+
+1. Load the extension
+2. Set about:config values
+   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+   - extensions.fxa-browser-discoverability_mozilla_org.test.expired=true
+   - Reload the extension
+
+Expected:
+
+1. New browser tab opened with url
+   - https://qsurvey.mozilla.com/s3/Avatar-Experiment?reason=expired
+   - There will be extra telemetry parameters appended to link but `syncstate=0&b=control` should specified in url
+
+### Treatment variation
 
 #### With new Firefox Account
 
@@ -75,7 +103,7 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
    - extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
    - Reload the extension
 
@@ -105,7 +133,7 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
    - extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
    - Reload the extension
 3. A verified existing Firefox Account
@@ -128,7 +156,7 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
    - extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
    - Reload the extension
 3. A verified Firefox Account.
@@ -153,7 +181,7 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
    - extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
    - Reload the extension
 3. Log into extension using a verified account
@@ -173,7 +201,7 @@ Prerequisites:
 
 1. Load the extension
 2. Set about:config values
-   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=control
+   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
    - Reload the extension
 3. Log into extension using a verified Firefox Account.
 4. Set about:config values
@@ -183,50 +211,8 @@ Prerequisites:
 Steps:
 
 1. New browser tab opened with url
-   - https://qsurvey.mozilla.com/s3/Avatar-Experiment-P2?reason=expired
-   - There will be extra telemetry parameters appended to link but `syncstate=1&b=treatment&sendtab=1` should specified in url
-   - `sendtab=1` if user clicked the `Send Tab to device` button, or `sendtab=0` if they didn't
-
-### Treatment variation
-
-The treatment variation has the same functionality as the control, except we need
-to test that the `Send Tab to Device` link appears after a user logs in.
-
-#### Displays `Send Tab to Device` menu button
-
-Prerequisites:
-
-1. Load the extension
-2. Set about:config values
-   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
-   - extensions.fxa-browser-discoverability_mozilla_org.test.expired=false
-   - Reload the extension
-3. Create and login with a new Firefox Account
-
-Steps:
-
-1. Click avatar icon in toolbar
-2. Click `Send Tab to Device` menu button
-
-Expected:
-
-1. User should see `Send Tab to Device` menu button
-2. Click the menu button above
-   - Opens link to https://blog.mozilla.org/firefox/send-tabs-a-better-way
-
-#### Prompts for shield study experiment survey
-
-1. Load the extension
-2. Set about:config values
-   - extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment
-   - extensions.fxa-browser-discoverability_mozilla_org.test.expired=true
-   - Reload the extension
-
-Expected:
-
-1. New browser tab opened with url
-   - https://qsurvey.mozilla.com/s3/Avatar-Experiment-P2?reason=expired
-   - There will be extra telemetry parameters appended to link but `syncstate=0&b=control&sentab=1` should specified in url
+   - https://qsurvey.mozilla.com/s3/Avatar-Experiment?reason=expired
+   - There will be extra telemetry parameters appended to link but `syncstate=1&b=treatment` should specified in url
 
 ### Design
 
