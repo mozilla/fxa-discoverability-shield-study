@@ -61,6 +61,10 @@ const baseStudySetup = {
       name: "treatment",
       weight: 1,
     },
+    {
+      name: "treatment2",
+      weight: 1,
+    },
   ],
 
   // maximum time that the study should run, from the first run
