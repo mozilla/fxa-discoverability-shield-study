@@ -106,9 +106,9 @@ async function createNewTab(url) {
 
   // On send tab clicks, set a session property that the user clicked the link.
   // When the experiment ends, this value will get appended to the survey.
-  if (url === SEND_TAB_INFO) {
+  if (url.indexOf(SEND_TAB_INFO) > -1) {
     const tab = await browser.storage.local.get("sendTab");
-    if (!!tab.sendTab) {
+    if (!tab.sendTab) {
       browser.storage.local.set({
         "sendTab": true,
       });
