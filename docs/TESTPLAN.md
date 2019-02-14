@@ -96,7 +96,7 @@ Expected:
 Expected:
 
 1. New browser tab opened with url
-   - https://qsurvey.mozilla.com/s3/Avatar-Experiment?reason=expired
+   - https://qsurvey.mozilla.com/s3/Avatar-Experiment-P2?reason=expired
    - There will be extra telemetry parameters appended to link but `syncstate=0&b=control` should specified in url
 
 ### Treatment variation
@@ -216,7 +216,7 @@ Steps:
 
 1. New browser tab opened with url
 
-   - https://qsurvey.mozilla.com/s3/Avatar-Experiment?reason=expired
+   - https://qsurvey.mozilla.com/s3/Avatar-Experiment-P2?reason=expired
    - There will be extra telemetry parameters appended to link but `syncstate=1&b=treatment` should specified in url
 
 ### Treatment 2 variation

@@ -46,7 +46,7 @@ const CLICK_HANDLERS = new Map([
     handler: () => openSyncPreferences(),
     telemetry: "unverifiedOpenSyncClick",
   } ],
-  [ "send-tab-button", {
+  [ "send-tab-menu", {
     handler: () => createNewTab(createEntrypointUrl(SEND_TAB_INFO)),
     telemetry: "sendTabDeviceClick",
   } ],
