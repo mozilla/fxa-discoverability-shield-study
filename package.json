@@ -1,7 +1,7 @@
 {
   "name": "fxa-discoverability-shield-study",
   "description": "Template Shield Study",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "author": "Mozilla",
   "bugs": {
     "url": "https://github.com/mozilla/fxa-discoverability-shield-study/issues"
