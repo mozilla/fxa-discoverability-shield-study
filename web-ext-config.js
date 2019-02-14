@@ -13,7 +13,7 @@ const defaultConfig = {
     firefox: process.env.FIREFOX_BINARY || "nightly",
     browserConsole: true,
     startUrl: ["about:debugging"],
-    pref: ["shieldStudy.logLevel=All", "extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment2"],
+    pref: ["shieldStudy.logLevel=All", "extensions.fxa-browser-discoverability_mozilla_org.test.variationName=treatment"],
   },
 };
 

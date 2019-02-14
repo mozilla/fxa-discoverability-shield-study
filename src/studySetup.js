@@ -58,10 +58,6 @@ const baseStudySetup = {
   /* Study branches and sample weights */
   weightedVariations: [
     {
-      name: "control",
-      weight: 1,
-    },
-    {
       name: "treatment",
       weight: 1,
     },
