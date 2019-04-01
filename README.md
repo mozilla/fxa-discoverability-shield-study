@@ -1,5 +1,8 @@
 # Firefox Account Browser Discoverability Shield Study
 
+This repo is archived and no longer being developed. From this experiment the FxA toolbar menu was landed
+as a native feature in Firefox. [Bugzilla Issue](https://bugzilla.mozilla.org/show_bug.cgi?id=1524665).
+
 ## About This Repository
 
 This repository uses the [Shield Study Template](https://wiki.mozilla.org/Firefox/Shield/Shield_Studies) to build the Firefox
